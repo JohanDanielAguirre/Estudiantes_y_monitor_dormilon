@@ -3,14 +3,17 @@ package src;
 import java.util.concurrent.Semaphore;
 
 public class Monitor {
-    private Semaphore sillasDisponibles;
-    private Semaphore monitorDormido;
-    private Semaphore mutex;
+    Semaphore sillasDisponibles;
+    Semaphore monitorDormido;
+    Semaphore atencionMonitor;
+    Semaphore mutex;
 
     public Monitor(int numSillas) {
         this.sillasDisponibles = new Semaphore(numSillas); // Sillas en el corredor
         this.monitorDormido = new Semaphore(0); // El monitor comienza dormido
-        this.mutex = new Semaphore(1); // Mutex para controlar el acceso a la silla de atención
+        this.atencionMonitor = new Semaphore(1); // Las personas que atiende el monitor a la vez
+        this.mutex = new Semaphore(1); // Mutex para controlar cuando se vaya a acceder a memoria
+
     }
 
     public void atenderEstudiante(int idEstudiante) {
@@ -32,14 +35,14 @@ public class Monitor {
                 monitorDormido.acquire();
                 System.out.println("Monitor se ha despertado y está listo para atender.");
 
-                // Atender al estudiante (quien ya ha adquirido el mutex)
-                atenderEstudiante(-1);
-
-                if (sillasDisponibles.availablePermits() == 3) {
-                    System.out.println("Monitor no tiene más estudiantes, se va a dormir.");
-                    monitorDormido.release();
-                    System.exit(000);
-                }
+//                // Atender al estudiante (quien ya ha adquirido el mutex)
+//                atenderEstudiante(-1);
+//
+//                if (sillasDisponibles.availablePermits() == 3) {
+//                    System.out.println("Monitor no tiene más estudiantes, se va a dormir.");
+//                    monitorDormido.release();
+//                    System.exit(000);
+//                }
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -68,4 +71,8 @@ public class Monitor {
             e.printStackTrace();
         }
     }
+
+//    public void decrementarAsientosDisponibles() throws InterruptedException {
+//        sillasDisponibles.acquire();
+//    }
 }
