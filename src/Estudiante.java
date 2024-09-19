@@ -15,6 +15,12 @@ public class Estudiante implements Runnable {
 
     public void atencionEstudiante() {
         try {
+            if (monitor.monitorDormido.availablePermits() == 0) {
+                System.out.println("Monitor se esta despertando");
+                Thread.sleep(5000);
+                System.out.println("Monitor se ha despertado y está listo para atender.");
+                monitor.monitorDormido.release();
+            }
             System.out.println("Estudiante " + idEstudiante + ": Esta siendo atendido");
             Thread.sleep(3000);
             System.out.println("Estudiante " + idEstudiante + ": Ha terminado");
@@ -52,7 +58,6 @@ public class Estudiante implements Runnable {
          catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        //monitor.llegarEstudiante(idEstudiante);
     }
 }
 
