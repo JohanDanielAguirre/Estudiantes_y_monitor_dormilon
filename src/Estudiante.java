@@ -34,8 +34,6 @@ public class Estudiante implements Runnable {
         try {
             while (!atendido) {
                 int espera;
-                //Toca tener en cuenta un mutex cuando se vaya a usar
-                //monitor.mutex.acquire();
 
                 System.out.println("Estudiante " + idEstudiante + ": Llega a la monitoria");
                 if(monitor.sillasDisponibles.availablePermits() > 0 ) {
