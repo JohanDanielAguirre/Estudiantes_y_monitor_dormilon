@@ -2,7 +2,7 @@ package src;
 
 public class Main {
     public static void main(String[] args) {
-        int numSillas = 3;
+        final int numSillas = 3;
         Monitor monitor = new Monitor(numSillas);
 
         // Crear hilo del monitor
@@ -10,7 +10,7 @@ public class Main {
         hiloMonitor.start();
 
         // Crear hilos para los estudiantes
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 6; i++) {
             Estudiante estudiante = new Estudiante(i, monitor);
             Thread hiloEstudiante = new Thread(estudiante);
             hiloEstudiante.start();
